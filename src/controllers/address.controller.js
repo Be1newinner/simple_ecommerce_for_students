@@ -52,6 +52,49 @@ export async function getSingleAddressByID(req, res) {
     }
 }
 
+
+export async function updateAddressByID(req, res) {
+    try {
+        const { id } = req.params;
+        const { name,
+            phone,
+            address1,
+            address2,
+            city,
+            state,
+            zipcode, } = req.body;
+
+        if (!Types.ObjectId.isValid(id)) throw new Error("Invalid Address ID!");
+
+        const addressData = await AddressModel.findByIdAndUpdate(id, {
+            $set: {
+                name,
+                phone,
+                address1,
+                address2,
+                city,
+                state,
+                zipcode,
+            }
+        }, { new: true }).lean()
+
+        if (!addressData) {
+            return res.status(404).json({ error: "Address not found!" });
+        }
+
+        return res.send({
+            data: addressData,
+            error: null
+        })
+    } catch (error) {
+        console.error(error)
+        res.send({
+            data: null,
+            error: error.message
+        })
+    }
+}
+
 export async function addAddressByUID(req, res) {
     try {
         const { name,
@@ -98,6 +141,33 @@ export async function addAddressByUID(req, res) {
             data: addressData,
             error: null
         })
+
+    } catch (error) {
+        res.send({
+            data: null,
+            error: error.message
+        })
+    }
+}
+
+
+export async function deleteAddressByID(req, res) {
+    try {
+        const { id } = req.params;
+
+        if (!Types.ObjectId.isValid(id)) throw new Error("Invalid address!");
+
+        const addressData = await AddressModel.deleteOne({ _id: id }).exec()
+
+        if (addressData.deletedCount) {
+            return res.send({
+                data: null,
+                error: null,
+                message: "Address Deleted Successfully!"
+            })
+        } else {
+            throw new Error("Address not deleted!")
+        }
 
     } catch (error) {
         res.send({
