@@ -5,14 +5,7 @@ export async function GetListOfProducts(req, res) {
   try {
     const data = await ProductModel.find({}, "-_id").lean();
 
-    if (!data || !data.length) {
-      res.status(200).json({
-        error: null,
-        message: "Products not found!",
-        data: [],
-      });
-      return;
-    }
+    if (!data || !data.length) throw new Error("Products not found!")
 
     res.status(200).json({
       error: null,
@@ -102,7 +95,31 @@ export async function AddSingleProductController(req, res) {
       });
     }
 
-    const product = new ProductModel({
+    // const product = new ProductModel({
+    //   name,
+    //   category,
+    //   price,
+    //   mrp,
+    //   stock,
+    //   sku,
+    //   rating: 0,
+    //   description,
+    // });
+
+    // const data = await product.save();
+
+    // const data = await ProductModel.insertOne({
+    //   name,
+    //   category,
+    //   price,
+    //   mrp,
+    //   stock,
+    //   sku,
+    //   rating: 0,
+    //   description,
+    // });
+
+    const data = await ProductModel.create({
       name,
       category,
       price,
@@ -112,8 +129,6 @@ export async function AddSingleProductController(req, res) {
       rating: 0,
       description,
     });
-
-    const data = await product.save();
 
     res.status(201).json({
       error: null,
@@ -151,8 +166,6 @@ export async function UpdateSingleProductController(
         message: "No product found with the given SKU",
         data: null,
       });
-
-
 
     res.status(200).json({
       error: null,

@@ -1,7 +1,7 @@
 import { CartModel } from "../models/carts.model.js";
 import { TAX } from "../constants/rates.js"
 import { ProductModel } from "../models/products.model.js";
-import mongoose from "mongoose";
+import { Types } from "mongoose";
 import { UserModel } from "../models/users.model.js";
 
 export async function increaseItemQuanityInCartController(req, res) {
@@ -20,8 +20,8 @@ export async function increaseItemQuanityInCartController(req, res) {
 
     // Expected Vaue in action = INCREASE | DECREASE
 
-    const userId = new mongoose.Types.ObjectId(uid);
-    const productId = new mongoose.Types.ObjectId(product_id);
+    const userId = new Types.ObjectId(uid);
+    const productId = new Types.ObjectId(product_id);
 
     // Step 1. Check if User Exist
     const userExist = await UserModel.exists({ _id: userId });
