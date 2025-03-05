@@ -1,7 +1,7 @@
 import { Schema, Model, model } from "mongoose";
 
 // Indian Based Addresses
-const AddressSchema = new Schema({
+export const AddressBaseSchema = new Schema({
     name: { type: String, required: true },
     phone: { type: String, required: true },
     address1: { type: String, required: true },
@@ -9,6 +9,9 @@ const AddressSchema = new Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipcode: { type: String, required: true },
+})
+
+const AddressSchema = new Schema({
     uid: {
         type: Schema.Types.ObjectId, required: true,
         ref: "users"
@@ -16,5 +19,8 @@ const AddressSchema = new Schema({
 }, {
     timestamps: true
 })
+
+// Add fields from AddressBaseSchema
+AddressSchema.add(AddressBaseSchema);
 
 export const AddressModel = model("Address", AddressSchema)

@@ -32,7 +32,6 @@ export async function increaseItemQuanityInCartController(req, res) {
     if (!product) throw new Error("Product doesn't exist!")
 
     const taxCalculated = TAX * product.price * quantity;
-
     const totalPrice = product.price * quantity;
     const totalMrp = product.mrp * quantity;
 
@@ -70,6 +69,23 @@ export async function increaseItemQuanityInCartController(req, res) {
                               0,
                             ],
                           },
+                          subtotal: {
+                            $max: [
+                              {
+                                $cond: {
+                                  if: { $eq: ["$$item.pid", productId] },
+                                  then: {
+                                    $add: [
+                                      "$$item.subtotal",
+                                      action === "INCREASE" ? quantity : -quantity,
+                                    ],
+                                  },
+                                  else: "$$item.qty",
+                                },
+                              },
+                              0,
+                            ],
+                          },
                         },
                       ],
                     },
@@ -79,7 +95,6 @@ export async function increaseItemQuanityInCartController(req, res) {
                 cond: { $gt: ["$$item.qty", 0] },
               },
             },
-            total: { $max: [{ $add: ["$total", action === "INCREASE" ? totalPrice + taxCalculated : -(totalPrice + taxCalculated)] }, 0] },
             subtotal: { $max: [{ $add: ["$subtotal", action === "INCREASE" ? totalPrice : -totalPrice] }, 0] },
             discount: { $max: [{ $add: ["$discount", action === "INCREASE" ? totalMrp - totalPrice : -(totalMrp - totalPrice)] }, 0] },
             tax: { $max: [{ $add: ["$tax", action === "INCREASE" ? taxCalculated : -taxCalculated] }, 0] },

@@ -9,6 +9,7 @@ import { ProductRouter } from "./routes/products.route.js";
 import { AuthRouter } from "./routes/users.route.js";
 import { CartRouter } from "./routes/carts.route.js";
 import { AddressRouter } from "./routes/address.route.js";
+import { OrderRouter } from "./routes/orders.route.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -24,6 +25,7 @@ app.use("/products", ProductRouter);
 app.use("/auth", AuthRouter);
 app.use("/cart", CartRouter);
 app.use("/address", AddressRouter)
+app.use("/orders", OrderRouter)
 
 ConnectDB()
   .then(async () => {
