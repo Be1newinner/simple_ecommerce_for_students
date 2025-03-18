@@ -1,5 +1,6 @@
 import { UserModel } from "../models/users.model.js";
 import { verifyHash } from "../utils/hashing.js";
+import { generateLoginTokens } from "../utils/jwt.js";
 
 export async function loginController(req, res) {
   try {
@@ -27,9 +28,19 @@ export async function loginController(req, res) {
       return;
     }
 
-    // ✅ Remove sensitive data before sending response
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...userWithoutPassword } = user;
+    console.log({ user })
+
+    const userWithoutPassword = user;
+    delete userWithoutPassword.password;
+    
+    const { accessToken, refreshToken } = await generateLoginTokens({
+      uid: userWithoutPassword._id,
+      email: userWithoutPassword.email,
+      role: userWithoutPassword.role
+    })
+
+    userWithoutPassword.accessToken = accessToken;
+    userWithoutPassword.refreshToken = refreshToken;
 
     res.status(200).json({
       error: null,
@@ -39,9 +50,10 @@ export async function loginController(req, res) {
     return;
   } catch (error) {
     const errorMessage = error.message || "Unexpected error!";
+    console.log("ERROR => ", error)
 
     res.status(500).json({
-      error: error,
+      // error: error,
       message: errorMessage,
       data: null,
     });
@@ -63,11 +75,14 @@ export async function registerController(req, res) {
 
     const user = await userData.save();
 
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
+
     if (user) {
       res.status(200).json({
         error: null,
-        message: "User Logged In Success!",
-        data: user,
+        message: "User register In Success!",
+        data: userWithoutPassword,
       });
     } else {
       res.status(404).json({
@@ -79,8 +94,10 @@ export async function registerController(req, res) {
   } catch (error) {
     const errorMessage = error.message || "Unexpected error!";
 
+    console.log("ERROR => ", error)
+
     res.status(500).json({
-      error: error,
+      // error: error,
       message: errorMessage,
       data: null,
     });
