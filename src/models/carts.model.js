@@ -6,24 +6,30 @@ export const CartPricingSchema = new Schema({
   subtotal: { type: Number, required: true, min: 0, default: 0 },
   tax: { type: Number, required: true, min: 0, default: 0 },
   discount: { type: Number, required: true, min: 0, default: 0 },
+}, {
+  _id: false
 })
 
 export const cartItemSchema = new Schema({
-  pid: {
-    type: Types.ObjectId, ref: "products", required: true
+  _id: {
+    type: Types.ObjectId, ref: "products"
   },
-  qty: { type: Number, required: true, min: 0 },
-  subtotal: { type: Number, required: true, min: 0 }, // ( this is price - discount on this product ) * qty 
+  qty: { type: Number, required: true, min: 0, default: 0 },
+  subtotal: { type: Number, required: true, min: 0, default: 0 }, // ( this is price - discount on this product ) * qty 
+}, {
+  autoIndex: true,
+  _id: false
 })
 
 cartItemSchema.add(productBaseSchema)
 
 const CartSchema = new Schema(
   {
-    items: [cartItemSchema],
+    items: { type: [cartItemSchema], required: true },
     _id: {
       type: Types.ObjectId, ref: "users"
-    }
+    },
+    total: { type: Number, required: true, min: 0, default: 0 },
   },
   {
     autoIndex: true,
