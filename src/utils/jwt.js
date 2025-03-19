@@ -56,3 +56,29 @@ export async function generateLoginTokens({ uid,
         })
     }
 }
+
+export async function decryptToken(token) {
+    try {
+        if (!process.env.JWT_SECRET || typeof process.env.JWT_SECRET !== "string") {
+            throw new Error("JWT_SECRET NOT FOUND OR INVALID");
+        }
+
+        if (!token || typeof token !== "string") {
+            throw new Error("TOKEN IS REQUIRED AND MUST BE A STRING");
+        }
+
+        // Verify JWT and decode payload
+        const data = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+
+        // Return required fields
+        return {
+            uid: data.uid,
+            email: data.email,
+            role: data.role
+        };
+
+    } catch (error) {
+        // console.error("JWT Verification Error:", error.message);
+        throw new Error("Invalid or expired token")
+    }
+}
