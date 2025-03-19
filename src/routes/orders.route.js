@@ -5,10 +5,11 @@ import {
     getOrderDetailsByID,
     updateOrderByID
 } from "../controllers/orders.controller.js";
+import VerifyAccessTokenMiddleWare from "../middleware/VerifyAccessToken.js";
 
 export const OrderRouter = Router()
 
-OrderRouter.post("/", generateOrder)
-OrderRouter.get("/:id", getOrderDetailsByID)
-OrderRouter.get("/all/:uid", getAllOrdersByUID)
-OrderRouter.patch("/:id", updateOrderByID)
+OrderRouter.post("/", VerifyAccessTokenMiddleWare, generateOrder)
+OrderRouter.get("/single/:id", VerifyAccessTokenMiddleWare, getOrderDetailsByID)
+OrderRouter.get("/all", VerifyAccessTokenMiddleWare, getAllOrdersByUID)
+OrderRouter.patch("/:id", VerifyAccessTokenMiddleWare, updateOrderByID)

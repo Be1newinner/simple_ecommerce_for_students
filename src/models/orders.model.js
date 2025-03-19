@@ -1,11 +1,12 @@
 import { Schema, model, Types } from "mongoose";
 
 import { cartItemSchema, CartPricingSchema } from "./carts.model.js";
+import { AddressBaseSchema } from "./address.models.js";
 
 
 // PricingSchema
 const OrderSchema = new Schema({
-    addressID: { type: Types.ObjectId, ref: "addresses", required: true },
+    address: { type: AddressBaseSchema, required: true },
     items: {
         type: [cartItemSchema],
         required: true
@@ -20,7 +21,7 @@ const OrderSchema = new Schema({
 
     // ORDER PROGRESS TIMESTAMPS
     orderTimeline: {
-        placedAt: { type: Date, default: Date.now },
+        placedAt: { type: Date, default: Date.now, required: true },
         confirmedAt: { type: Date },
         shippedAt: { type: Date },
         ofdAt: { type: Date },
@@ -33,6 +34,6 @@ const OrderSchema = new Schema({
     timestamps: true
 })
 
-OrderItemSchema.add(CartPricingSchema)
+OrderSchema.add(CartPricingSchema)
 
 export const OrderModel = model("Order", OrderSchema);

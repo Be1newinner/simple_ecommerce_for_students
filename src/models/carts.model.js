@@ -6,8 +6,6 @@ export const CartPricingSchema = new Schema({
   subtotal: { type: Number, required: true, min: 0, default: 0 },
   tax: { type: Number, required: true, min: 0, default: 0 },
   discount: { type: Number, required: true, min: 0, default: 0 },
-}, {
-  _id: false
 })
 
 export const cartItemSchema = new Schema({
