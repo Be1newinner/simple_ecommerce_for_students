@@ -8,7 +8,7 @@ async function createToken({
 }) {
     if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET NOT FOUND");
 
-    if (!uid || !email || !role) throw new Error("uid, email, role are required for token generation!");
+    if (!uid || !email || !role || !expiry) throw new Error("uid, email, role, expiry are required for token generation!");
 
     const token = await jsonwebtoken.sign({ uid, email, role }, process.env.JWT_SECRET, {
         expiresIn: expiry
@@ -58,15 +58,15 @@ async function generateLoginTokens({ uid,
 }
 
 async function decryptToken(token) {
+    if (!process.env.JWT_SECRET || typeof process.env.JWT_SECRET !== "string") {
+        throw new Error("JWT_SECRET NOT FOUND OR INVALID");
+    }
+
+    if (!token || typeof token !== "string") {
+        throw new Error("TOKEN IS REQUIRED AND MUST BE A STRING");
+    }
+
     try {
-        if (!process.env.JWT_SECRET || typeof process.env.JWT_SECRET !== "string") {
-            throw new Error("JWT_SECRET NOT FOUND OR INVALID");
-        }
-
-        if (!token || typeof token !== "string") {
-            throw new Error("TOKEN IS REQUIRED AND MUST BE A STRING");
-        }
-
         // Verify JWT and decode payload
         const data = jsonwebtoken.verify(token, process.env.JWT_SECRET);
 
