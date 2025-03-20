@@ -1,15 +1,13 @@
-import dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-import express from "express";
+const express = require("express");
+const ConnectDB = require("./config/db.config.js");
 
-import ConnectDB from "./config/db.config.js";
-
-import { ProductRouter } from "./routes/products.route.js";
-import { AuthRouter } from "./routes/users.route.js";
-import { CartRouter } from "./routes/carts.route.js";
-import { AddressRouter } from "./routes/address.route.js";
-import { OrderRouter } from "./routes/orders.route.js";
+const { ProductRouter } = require("./routes/products.route.js");
+const { AuthRouter } = require("./routes/users.route.js");
+const { CartRouter } = require("./routes/carts.route.js");
+const { AddressRouter } = require("./routes/address.route.js");
+const { OrderRouter } = require("./routes/orders.route.js");
 
 const app = express();
 const PORT = process.env.PORT || 8000;

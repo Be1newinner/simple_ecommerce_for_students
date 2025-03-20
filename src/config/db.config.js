@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-export default async function ConnectDB() {
+async function ConnectDB() {
   if (process.env.MONGO_URI) {
     await mongoose.connect(process.env.MONGO_URI, {
       maxPoolSize: 10, // Use a connection pool to avoid full reconnects
@@ -11,3 +11,5 @@ export default async function ConnectDB() {
     throw Error("PROVIDE VALID MONGO URI");
   }
 }
+
+module.exports = ConnectDB;

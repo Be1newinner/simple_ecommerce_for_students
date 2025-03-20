@@ -1,8 +1,8 @@
-import { Types } from "mongoose";
-import { AddressModel } from "../models/address.models.js";
-import { UserModel } from "../models/users.model.js";
+const { Types } = require("mongoose");
+const { AddressModel } = require("../models/address.models.js");
+const { UserModel } = require("../models/users.model.js");
 
-export async function getAllAddressByUID(req, res) {
+async function getAllAddressByUID(req, res) {
     try {
 
         const { uid } = req.params;
@@ -29,7 +29,7 @@ export async function getAllAddressByUID(req, res) {
     }
 }
 
-export async function getSingleAddressByID(req, res) {
+async function getSingleAddressByID(req, res) {
     try {
         const { id } = req.params;
 
@@ -52,8 +52,7 @@ export async function getSingleAddressByID(req, res) {
     }
 }
 
-
-export async function updateAddressByID(req, res) {
+async function updateAddressByID(req, res) {
     try {
         const { id } = req.params;
         const { name,
@@ -95,7 +94,7 @@ export async function updateAddressByID(req, res) {
     }
 }
 
-export async function addAddressByUID(req, res) {
+async function addAddressByUID(req, res) {
     try {
         const { name,
             phone,
@@ -150,8 +149,7 @@ export async function addAddressByUID(req, res) {
     }
 }
 
-
-export async function deleteAddressByID(req, res) {
+async function deleteAddressByID(req, res) {
     try {
         const { id } = req.params;
 
@@ -175,4 +173,12 @@ export async function deleteAddressByID(req, res) {
             error: error.message
         })
     }
+}
+
+module.exports = {
+    getAllAddressByUID,
+    getSingleAddressByID,
+    updateAddressByID,
+    addAddressByUID,
+    deleteAddressByID
 }

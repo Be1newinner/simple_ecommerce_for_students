@@ -1,11 +1,16 @@
-import { Router } from "express";
-import {
+const { Router } = require("express");
+const {
   getCartController,
   increaseItemQuanityInCartController,
-} from "../controllers/carts.controller.js";
-import VerifyAccessTokenMiddleWare from "../middleware/VerifyAccessToken.js";
+} = require("../controllers/carts.controller.js");
 
-export const CartRouter = Router();
+const { VerifyAccessTokenMiddleWare } = require("../middleware/VerifyAccessToken.js");
+
+const CartRouter = Router();
 
 CartRouter.get("/:uid", VerifyAccessTokenMiddleWare, getCartController);
 CartRouter.patch("/", VerifyAccessTokenMiddleWare, increaseItemQuanityInCartController);
+
+module.exports = {
+  CartRouter
+}

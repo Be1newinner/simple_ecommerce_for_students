@@ -1,7 +1,7 @@
-import { ProductModel } from "../models/products.model.js";
+const { ProductModel } = require("../models/products.model.js");
 
 // Fetch All Products
-export async function GetListOfProducts(req, res) {
+async function GetListOfProducts(req, res) {
   try {
     const data = await ProductModel.find({}, "-_id").lean();
 
@@ -23,7 +23,7 @@ export async function GetListOfProducts(req, res) {
 }
 
 // Fetch Single Product by SKU
-export async function GetSingleProduct(req, res) {
+async function GetSingleProduct(req, res) {
   try {
     const { sku } = req.params;
     const data = await ProductModel.findOne({ sku }).lean();
@@ -53,7 +53,7 @@ export async function GetSingleProduct(req, res) {
 }
 
 // Add Multiple Products
-export async function AddListOfProductsController(req, res) {
+async function AddListOfProductsController(req, res) {
   try {
     const body = req.body;
 
@@ -82,7 +82,7 @@ export async function AddListOfProductsController(req, res) {
 }
 
 // Add Single Product
-export async function AddSingleProductController(req, res) {
+async function AddSingleProductController(req, res) {
   try {
     const { name, category, price, mrp, stock, sku, description } =
       req.body;
@@ -146,7 +146,7 @@ export async function AddSingleProductController(req, res) {
 }
 
 // Update Single Product by SKU
-export async function UpdateSingleProductController(
+async function UpdateSingleProductController(
   req,
   res
 ) {
@@ -183,7 +183,7 @@ export async function UpdateSingleProductController(
 }
 
 // Delete Product by SKU
-export async function deleteProductByID(req, res) {
+async function deleteProductByID(req, res) {
   try {
     const { sku } = req.params;
 
@@ -207,4 +207,13 @@ export async function deleteProductByID(req, res) {
       data: null,
     });
   }
+}
+
+module.exports = {
+  GetListOfProducts,
+  GetSingleProduct,
+  AddListOfProductsController,
+  AddSingleProductController,
+  UpdateSingleProductController,
+  deleteProductByID,
 }

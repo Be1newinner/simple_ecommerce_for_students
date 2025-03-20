@@ -1,10 +1,10 @@
-import { CartModel } from "../models/carts.model.js";
-import { TAX } from "../constants/rates.js"
-import { ProductModel } from "../models/products.model.js";
-import { Types } from "mongoose";
-import { UserModel } from "../models/users.model.js";
+const { CartModel } = require("../models/carts.model.js");
+const { TAX } = require("../constants/rates.js");
+const { ProductModel } = require("../models/products.model.js");
+const { Types } = require("mongoose");
+const { UserModel } = require("../models/users.model.js");
 
-export async function increaseItemQuanityInCartController(req, res) {
+async function increaseItemQuanityInCartController(req, res) {
   try {
     const {
       product_id,
@@ -184,7 +184,7 @@ export async function increaseItemQuanityInCartController(req, res) {
   }
 }
 
-export async function getCartController(req, res) {
+async function getCartController(req, res) {
   try {
     const { uid } = req.locals
 
@@ -210,4 +210,9 @@ export async function getCartController(req, res) {
       data: null,
     });
   }
+}
+
+module.exports = {
+  increaseItemQuanityInCartController,
+  getCartController
 }

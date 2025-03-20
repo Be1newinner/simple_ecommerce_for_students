@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { hashing } from "../utils/hashing.js";
+const { model, Schema } = require("mongoose");
+const { hashing } = require("../utils/hashing.js");
 
 const UserSchema = new Schema(
   {
@@ -30,4 +30,8 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-export const UserModel = model("User", UserSchema);
+const UserModel = model("User", UserSchema);
+
+module.exports = {
+  UserModel
+}

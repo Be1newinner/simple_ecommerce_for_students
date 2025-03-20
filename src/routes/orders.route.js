@@ -1,15 +1,19 @@
-import { Router } from "express";
-import {
+const { Router } = require("express");
+const {
     generateOrder,
     getAllOrdersByUID,
     getOrderDetailsByID,
     updateOrderByID
-} from "../controllers/orders.controller.js";
-import VerifyAccessTokenMiddleWare from "../middleware/VerifyAccessToken.js";
+} = require("../controllers/orders.controller.js");
+const { VerifyAccessTokenMiddleWare } = require("../middleware/VerifyAccessToken.js");
 
-export const OrderRouter = Router()
+const OrderRouter = Router()
 
 OrderRouter.post("/", VerifyAccessTokenMiddleWare, generateOrder)
-OrderRouter.get("/single/:id", VerifyAccessTokenMiddleWare, getOrderDetailsByID)
 OrderRouter.get("/all", VerifyAccessTokenMiddleWare, getAllOrdersByUID)
+OrderRouter.get("/single/:id", VerifyAccessTokenMiddleWare, getOrderDetailsByID)
 OrderRouter.patch("/:id", VerifyAccessTokenMiddleWare, updateOrderByID)
+
+module.exports = {
+    OrderRouter
+}

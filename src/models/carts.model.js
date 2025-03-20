@@ -1,14 +1,14 @@
-import { model, Schema, Types } from "mongoose";
+const { model, Schema, Types } = require("mongoose");
 
-import { productBaseSchema } from "../models/products.model.js";
+const { productBaseSchema } = require("../models/products.model.js");
 
-export const CartPricingSchema = new Schema({
+const CartPricingSchema = new Schema({
   subtotal: { type: Number, required: true, min: 0, default: 0 },
   tax: { type: Number, required: true, min: 0, default: 0 },
   discount: { type: Number, required: true, min: 0, default: 0 },
 })
 
-export const cartItemSchema = new Schema({
+const cartItemSchema = new Schema({
   _id: {
     type: Types.ObjectId, ref: "products"
   },
@@ -38,4 +38,10 @@ const CartSchema = new Schema(
 
 CartSchema.add(CartPricingSchema);
 
-export const CartModel = model("Cart", CartSchema);
+const CartModel = model("Cart", CartSchema);
+
+module.exports = {
+  CartPricingSchema,
+  cartItemSchema,
+  CartModel
+}

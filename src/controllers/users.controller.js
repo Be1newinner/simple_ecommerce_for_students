@@ -1,8 +1,8 @@
-import { UserModel } from "../models/users.model.js";
-import { verifyHash } from "../utils/hashing.js";
-import { generateLoginTokens } from "../utils/jwt.js";
+const { UserModel } = require("../models/users.model.js");
+const { verifyHash } = require("../utils/hashing.js");
+const { generateLoginTokens } = require("../utils/jwt.js");
 
-export async function loginController(req, res) {
+async function loginController(req, res) {
   try {
     const { email, password } = req.body;
 
@@ -32,7 +32,7 @@ export async function loginController(req, res) {
 
     const userWithoutPassword = user;
     delete userWithoutPassword.password;
-    
+
     const { accessToken, refreshToken } = await generateLoginTokens({
       uid: userWithoutPassword._id,
       email: userWithoutPassword.email,
@@ -60,7 +60,7 @@ export async function loginController(req, res) {
   }
 }
 
-export async function registerController(req, res) {
+async function registerController(req, res) {
   try {
     const { email, password, name, gender, role, phone } = req.body;
 
@@ -102,4 +102,9 @@ export async function registerController(req, res) {
       data: null,
     });
   }
+}
+
+module.exports = {
+  loginController,
+  registerController
 }

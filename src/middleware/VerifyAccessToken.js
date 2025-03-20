@@ -1,6 +1,6 @@
-import { decryptToken } from "../utils/jwt.js";
+const { decryptToken } = require("../utils/jwt.js");
 
-export default async function VerifyAccessTokenMiddleWare(req, res, next) {
+async function VerifyAccessTokenMiddleWare(req, res, next) {
     try {
 
         let token = req.headers.authorization;
@@ -17,4 +17,8 @@ export default async function VerifyAccessTokenMiddleWare(req, res, next) {
                 message: error.message, data: null
             });
     }
+}
+
+module.exports = {
+    VerifyAccessTokenMiddleWare
 }

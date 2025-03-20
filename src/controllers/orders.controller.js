@@ -1,8 +1,8 @@
-import { AddressModel } from "../models/address.models.js"
-import { CartModel } from "../models/carts.model.js"
-import { OrderModel } from "../models/orders.model.js"
+const { AddressModel } = require("../models/address.models.js");
+const { CartModel } = require("../models/carts.model.js");
+const { OrderModel } = require("../models/orders.model.js");
 
-export const getOrderDetailsByID = (req, res) => {
+const getOrderDetailsByID = (req, res) => {
     try {
 
     } catch (error) {
@@ -14,7 +14,7 @@ export const getOrderDetailsByID = (req, res) => {
     }
 }
 
-export const getAllOrdersByUID = (req, res) => {
+const getAllOrdersByUID = (req, res) => {
     try {
 
     } catch (error) {
@@ -26,7 +26,7 @@ export const getAllOrdersByUID = (req, res) => {
     }
 }
 
-export const updateOrderByID = (req, res) => {
+const updateOrderByID = (req, res) => {
     try {
 
     } catch (error) {
@@ -38,7 +38,7 @@ export const updateOrderByID = (req, res) => {
     }
 }
 
-export const generateOrder = async (req, res) => {
+const generateOrder = async (req, res) => {
     try {
         const {
             address,
@@ -52,20 +52,26 @@ export const generateOrder = async (req, res) => {
             total: true,
             subtotal: true,
             items: true,
-            tax: true
+            tax: true,
+            _id: false
         }).lean();
-        console.log({ cartData });
 
-        const addressData = await AddressModel.findById(address).select({
+        if (!cartData) throw new Error("Cart Doesn't Exist for this User!");
+
+        // console.log({ cartData });
+
+        const addressData = await AddressModel.findOne({ _id: address, uid }).select({
             name: true,
             phone: true,
             address1: true,
             address2: true,
             city: true,
             state: true,
-            zipcode: true
+            zipcode: true,
+            _id: false
         }).lean();
-        console.log({ addressData });
+
+        if (!addressData) throw new Error("This Address Doesn't Exist for this User!");
 
         const orderResponse = await OrderModel.insertOne({
             address: {
@@ -83,12 +89,15 @@ export const generateOrder = async (req, res) => {
             subtotal: cartData.subtotal,
             tax: cartData.tax,
             discount: cartData.discount
+        });
+
+        await CartModel.deleteOne({ _id: uid })
+
+        res.status(201).json({
+            error: null,
+            message: "generate Order success!",
+            data: orderResponse
         })
-
-        console.log(orderResponse)
-
-        res.end()
-
 
     } catch (error) {
         res.status(500).json({
@@ -97,4 +106,11 @@ export const generateOrder = async (req, res) => {
             data: null
         })
     }
+}
+
+module.exports = {
+    getOrderDetailsByID,
+    getAllOrdersByUID,
+    updateOrderByID,
+    generateOrder
 }

@@ -1,7 +1,6 @@
-import { Schema, model, Types } from "mongoose";
-
-import { cartItemSchema, CartPricingSchema } from "./carts.model.js";
-import { AddressBaseSchema } from "./address.models.js";
+const { Schema, model, Types } = require("mongoose");
+const { cartItemSchema, CartPricingSchema } = require("./carts.model.js");
+const { AddressBaseSchema } = require("./address.models.js");
 
 
 // PricingSchema
@@ -36,4 +35,8 @@ const OrderSchema = new Schema({
 
 OrderSchema.add(CartPricingSchema)
 
-export const OrderModel = model("Order", OrderSchema);
+const OrderModel = model("Order", OrderSchema);
+
+module.exports = {
+    OrderModel
+}

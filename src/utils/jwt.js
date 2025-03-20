@@ -1,6 +1,6 @@
-import jsonwebtoken from "jsonwebtoken";
+const jsonwebtoken = require("jsonwebtoken");
 
-export async function createToken({
+async function createToken({
     uid,
     email,
     role,
@@ -18,7 +18,7 @@ export async function createToken({
 }
 
 
-export async function generateAccessToken({ uid,
+async function generateAccessToken({ uid,
     email,
     role }) {
     return createToken({
@@ -29,7 +29,7 @@ export async function generateAccessToken({ uid,
     })
 }
 
-export async function generateRefreshToken({ uid,
+async function generateRefreshToken({ uid,
     email,
     role }) {
     return createToken({
@@ -40,7 +40,7 @@ export async function generateRefreshToken({ uid,
     })
 }
 
-export async function generateLoginTokens({ uid,
+async function generateLoginTokens({ uid,
     email,
     role }) {
     return {
@@ -57,7 +57,7 @@ export async function generateLoginTokens({ uid,
     }
 }
 
-export async function decryptToken(token) {
+async function decryptToken(token) {
     try {
         if (!process.env.JWT_SECRET || typeof process.env.JWT_SECRET !== "string") {
             throw new Error("JWT_SECRET NOT FOUND OR INVALID");
@@ -81,4 +81,13 @@ export async function decryptToken(token) {
         // console.error("JWT Verification Error:", error.message);
         throw new Error("Invalid or expired token")
     }
+}
+
+
+module.exports = {
+    createToken,
+    generateAccessToken,
+    generateRefreshToken,
+    generateLoginTokens,
+    decryptToken,
 }

@@ -1,1 +1,3 @@
-export const TAX = 0.18;
+const TAX = 0.18;
+
+module.exports = { TAX }
