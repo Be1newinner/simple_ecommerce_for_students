@@ -1,20 +1,28 @@
 const argon2 = require("argon2");
 
 async function hashing(text) {
-  return argon2.hash(text).catch((err) => {
-    throw new Error(`Hashing failed: ${err.message}`);
-  });
+  if (!text) throw new Error("INPUT IS REQUIRED!")
+
+  try {
+    const token = await argon2.hash(text);
+    return token;
+  } catch (error) {
+    throw new Error("Hashing failed!");
+  }
 }
 
 async function verifyHash(
   plainText,
   hashed
 ) {
-  return argon2.verify(hashed, plainText).catch((err) => {
-    console.log(hashed, plainText);
-    console.error(err);
-    throw new Error(`Hash verification failed: ${err.message}`);
-  });
+  if (!plainText || !hashed) throw new Error("PLAIN_TEXT and HASHED is Required!")
+
+  try {
+    const data = await argon2.verify(hashed, plainText);
+    return data;
+  } catch (error) {
+    throw new Error("Hash verification failed!");
+  }
 }
 
 module.exports = {

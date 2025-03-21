@@ -25,13 +25,22 @@ app.use("/cart", CartRouter);
 app.use("/address", AddressRouter)
 app.use("/orders", OrderRouter)
 
-ConnectDB()
-  .then(async () => {
-    app.listen(PORT, () => {
+let server;
+
+async function startServer() {
+  try {
+    await ConnectDB();
+    server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
-  })
-  .catch((e) => {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     process.exit(1);
-  });
+  }
+}
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { app, startServer, server }

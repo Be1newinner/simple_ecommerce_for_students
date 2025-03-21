@@ -95,30 +95,6 @@ async function AddSingleProductController(req, res) {
       });
     }
 
-    // const product = new ProductModel({
-    //   name,
-    //   category,
-    //   price,
-    //   mrp,
-    //   stock,
-    //   sku,
-    //   rating: 0,
-    //   description,
-    // });
-
-    // const data = await product.save();
-
-    // const data = await ProductModel.insertOne({
-    //   name,
-    //   category,
-    //   price,
-    //   mrp,
-    //   stock,
-    //   sku,
-    //   rating: 0,
-    //   description,
-    // });
-
     const data = await ProductModel.create({
       name,
       category,
@@ -154,11 +130,27 @@ async function UpdateSingleProductController(
     const { name, category, price, mrp, stock, sku, description, rating } =
       req.body;
 
+    if (!sku) {
+      let error = new Error("SKU is Required!");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (!(name || category || price || mrp || stock || description || rating)) {
+      let error = new Error("Atleast one field to update is required!");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // console.log({ sku })
+
     const updatedData = await ProductModel.findOneAndUpdate(
       { sku },
       { name, category, price, mrp, stock, description, rating },
       { new: true }
     );
+
+    console.log(updatedData)
 
     if (!updatedData)
       return res.status(404).json({
@@ -173,8 +165,8 @@ async function UpdateSingleProductController(
       data: updatedData,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).json({
       error: error.message,
       message: "Failed to update product",
       data: null,
