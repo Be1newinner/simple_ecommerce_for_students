@@ -10,7 +10,7 @@ const { AddressRouter } = require("./routes/address.route.js");
 const { OrderRouter } = require("./routes/orders.route.js");
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8004;
 
 app.use(express.json());
 
