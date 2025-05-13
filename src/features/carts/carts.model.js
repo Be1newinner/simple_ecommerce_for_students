@@ -1,6 +1,6 @@
 const { model, Schema, Types } = require("mongoose");
 
-const { productBaseSchema } = require("../models/products.model.js");
+const { productBaseSchema } = require("../products/products.model.js");
 
 const CartPricingSchema = new Schema({
   subtotal: { type: Number, required: true, min: 0, default: 0 },

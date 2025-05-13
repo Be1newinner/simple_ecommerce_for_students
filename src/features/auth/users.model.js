@@ -1,5 +1,5 @@
 const { model, Schema } = require("mongoose");
-const { hashing } = require("../utils/hashing.js");
+const { hashing } = require("../../shared/utils/hashing.js");
 
 const UserSchema = new Schema(
   {

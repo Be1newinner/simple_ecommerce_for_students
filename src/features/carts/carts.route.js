@@ -4,7 +4,7 @@ const {
   increaseItemQuanityInCartController,
 } = require("../controllers/carts.controller.js");
 
-const { VerifyAccessTokenMiddleWare } = require("../middleware/VerifyAccessToken.js");
+const { VerifyAccessTokenMiddleWare } = require("../../shared/middleware/VerifyAccessToken.js");
 
 const CartRouter = Router();
 

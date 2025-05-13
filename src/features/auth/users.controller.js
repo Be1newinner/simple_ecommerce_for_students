@@ -1,6 +1,6 @@
-const { UserModel } = require("../models/users.model.js");
-const { verifyHash } = require("../utils/hashing.js");
-const { generateLoginTokens } = require("../utils/jwt.js");
+const { UserModel } = require("./users.model.js");
+const { verifyHash } = require("../../shared/utils/hashing.js");
+const { generateLoginTokens } = require("../../shared/utils/jwt.js");
 
 async function loginController(req, res) {
   try {

@@ -3,11 +3,11 @@ require("dotenv").config();
 const express = require("express");
 const ConnectDB = require("./config/db.config.js");
 
-const { ProductRouter } = require("./routes/products.route.js");
-const { AuthRouter } = require("./routes/users.route.js");
-const { CartRouter } = require("./routes/carts.route.js");
-const { AddressRouter } = require("./routes/address.route.js");
-const { OrderRouter } = require("./routes/orders.route.js");
+const { ProductRouter } = require("./features/products/products.route.js");
+const { AuthRouter } = require("./features/auth/users.route.js");
+const { CartRouter } = require("./features/carts/carts.route.js");
+const { AddressRouter } = require("./features/address/address.route.js");
+const { OrderRouter } = require("./features/orders/orders.route.js");
 
 const app = express();
 const PORT = process.env.PORT || 8004;

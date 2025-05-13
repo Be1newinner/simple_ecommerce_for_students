@@ -5,7 +5,7 @@ const {
     getOrderDetailsByID,
     updateOrderByID
 } = require("../controllers/orders.controller.js");
-const { VerifyAccessTokenMiddleWare } = require("../middleware/VerifyAccessToken.js");
+const { VerifyAccessTokenMiddleWare } = require("../../shared/middleware/VerifyAccessToken.js");
 
 const OrderRouter = Router()
 
