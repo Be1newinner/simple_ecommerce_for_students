@@ -1,116 +1,87 @@
-const { AddressModel } = require("../models/address.models.js");
-const { CartModel } = require("../models/carts.model.js");
-const { OrderModel } = require("../models/orders.model.js");
-
-const getOrderDetailsByID = (req, res) => {
-    try {
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.message,
-            message: "Unable to retrieve Order Detail",
-            data: null
-        })
-    }
-}
-
-const getAllOrdersByUID = (req, res) => {
-    try {
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.message,
-            message: "Unable to retrieve orders",
-            data: null
-        })
-    }
-}
-
-const updateOrderByID = (req, res) => {
-    try {
-
-    } catch (error) {
-        res.status(500).json({
-            error: error.message,
-            message: "Unable to update order detail",
-            data: null
-        })
-    }
-}
+const {
+    generateOrderService,
+    getAllOrdersByUIDService,
+    getOrderDetailsByIDService,
+    updateOrderByIDService
+} = require("./orders.service.js");
 
 const generateOrder = async (req, res) => {
     try {
-        const {
-            address,
-            shippingFee,
-        } = req.body;
-
         const { uid } = req.locals;
-
-        const cartData = await CartModel.findById(uid).select({
-            discount: true,
-            total: true,
-            subtotal: true,
-            items: true,
-            tax: true,
-            _id: false
-        }).lean();
-
-        if (!cartData) throw new Error("Cart Doesn't Exist for this User!");
-
-        // console.log({ cartData });
-
-        const addressData = await AddressModel.findOne({ _id: address, uid }).select({
-            name: true,
-            phone: true,
-            address1: true,
-            address2: true,
-            city: true,
-            state: true,
-            zipcode: true,
-            _id: false
-        }).lean();
-
-        if (!addressData) throw new Error("This Address Doesn't Exist for this User!");
-
-        const orderResponse = await OrderModel.insertOne({
-            address: {
-                name: addressData.name,
-                phone: addressData.phone,
-                address1: addressData.address1,
-                address2: addressData.address2,
-                city: addressData.city,
-                state: addressData.state,
-                zipcode: addressData.zipcode,
-            },
-            items: cartData.items,
-            uid,
-            shippingFee,
-            subtotal: cartData.subtotal,
-            tax: cartData.tax,
-            discount: cartData.discount
-        });
-
-        await CartModel.deleteOne({ _id: uid })
-
+        const data = await generateOrderService(uid, req.body);
         res.status(201).json({
             error: null,
-            message: "generate Order success!",
-            data: orderResponse
-        })
-
+            message: "Order generated successfully",
+            data
+        });
     } catch (error) {
         res.status(500).json({
             error: error.message,
-            message: "Unable to generate Order!",
+            message: "Unable to generate order",
             data: null
-        })
+        });
     }
-}
+};
+
+const getAllOrdersByUID = async (req, res) => {
+    try {
+        const { uid } = req.locals;
+        const data = await getAllOrdersByUIDService(uid);
+        res.status(200).json({
+            error: null,
+            message: "Orders fetched",
+            data
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+            message: "Unable to fetch orders",
+            data: null
+        });
+    }
+};
+
+const getOrderDetailsByID = async (req, res) => {
+    try {
+        const { uid } = req.locals;
+        const { id } = req.params;
+        const data = await getOrderDetailsByIDService(uid, id);
+        res.status(200).json({
+            error: null,
+            message: "Order detail fetched",
+            data
+        });
+    } catch (error) {
+        res.status(404).json({
+            error: error.message,
+            message: "Unable to fetch order",
+            data: null
+        });
+    }
+};
+
+const updateOrderByID = async (req, res) => {
+    try {
+        const { uid } = req.locals;
+        const { id } = req.params;
+        const data = await updateOrderByIDService(uid, id, req.body);
+        res.status(200).json({
+            error: null,
+            message: "Order updated",
+            data
+        });
+    } catch (error) {
+        res.status(404).json({
+            error: error.message,
+            message: "Unable to update order",
+            data: null
+        });
+    }
+};
 
 module.exports = {
-    getOrderDetailsByID,
+    generateOrder,
     getAllOrdersByUID,
-    updateOrderByID,
-    generateOrder
-}
+    getOrderDetailsByID,
+    updateOrderByID
+};

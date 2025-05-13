@@ -4,7 +4,7 @@ const express = require("express");
 const ConnectDB = require("./config/db.config.js");
 
 const { ProductRouter } = require("./features/products/products.route.js");
-const { AuthRouter } = require("./features/auth/users.route.js");
+const { AuthRouter } = require("./features/auth/auth.route.js");
 const { CartRouter } = require("./features/carts/carts.route.js");
 const { AddressRouter } = require("./features/address/address.route.js");
 const { OrderRouter } = require("./features/orders/orders.route.js");
