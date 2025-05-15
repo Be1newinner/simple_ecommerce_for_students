@@ -2,7 +2,7 @@ const { Router } = require("express");
 const {
   getCartController,
   increaseItemQuanityInCartController,
-} = require("../controllers/carts.controller.js");
+} = require("./carts.controller.js");
 
 const { VerifyAccessTokenMiddleWare } = require("../../shared/middleware/VerifyAccessToken.js");
 

@@ -1,6 +1,6 @@
-const { AddressModel } = require("../models/address.models.js");
-const { CartModel } = require("../models/carts.model.js");
-const { OrderModel } = require("../models/orders.model.js");
+const { AddressModel } = require("../address/address.model.js");
+const { CartModel } = require("../carts/carts.model.js");
+const { OrderModel } = require("./orders.model.js");
 
 async function generateOrderService(uid, { address, shippingFee }) {
     const cartData = await CartModel.findById(uid).select({

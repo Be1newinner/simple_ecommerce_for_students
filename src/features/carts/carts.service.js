@@ -1,6 +1,6 @@
-const { CartModel } = require("../models/carts.model.js");
-const { ProductModel } = require("../models/products.model.js");
-const { UserModel } = require("../models/users.model.js");
+const { CartModel } = require("./carts.model.js");
+const { ProductModel } = require("../products/products.model.js");
+const { UserModel } = require("../users/users.model.js");
 const { TAX } = require("../constants/rates.js");
 const { Types } = require("mongoose");
 

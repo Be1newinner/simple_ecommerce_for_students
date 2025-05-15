@@ -1,7 +1,7 @@
 const {
   increaseItemQuantityService,
   getCartService
-} = require("../services/carts.service.js");
+} = require("./carts.service.js");
 
 async function increaseItemQuanityInCartController(req, res) {
   try {

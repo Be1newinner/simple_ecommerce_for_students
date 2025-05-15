@@ -1,6 +1,6 @@
 const { Schema, model, Types } = require("mongoose");
-const { cartItemSchema, CartPricingSchema } = require("./carts.model.js");
-const { AddressBaseSchema } = require("./address.models.js");
+const { cartItemSchema, CartPricingSchema } = require("../carts/carts.model.js");
+const { AddressBaseSchema } = require("../address/address.model.js");
 
 
 // PricingSchema
