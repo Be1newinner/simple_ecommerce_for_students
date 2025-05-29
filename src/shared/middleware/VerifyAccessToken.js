@@ -2,7 +2,6 @@ const { decryptToken } = require("../utils/jwt.js");
 
 async function VerifyAccessTokenMiddleWare(req, res, next) {
     try {
-
         let token = req.headers.authorization;
         token = token.replace("Bearer ", "");
         if (!token) throw new Error("ACCESS TOKEN NOT FOUND!")

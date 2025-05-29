@@ -4,8 +4,7 @@ const { UserModel } = require("../users/users.model.js");
 const { TAX } = require("../constants/rates.js");
 const { Types } = require("mongoose");
 
-// Constants for tax, you can define these as needed
-const TAX = 0.18;  // Example: 18% tax, modify according to your requirement
+const TAX = 0.18;  
 
 async function increaseItemQuantityService({ uid, product_id, action = "INCREASE" }) {
   const quantity = 1;

@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { addAddressByUID, deleteAddressByID, getAllAddressByUID, getSingleAddressByID, updateAddressByID } = require("../controllers/address.controller.js");
+const { addAddressByUID, deleteAddressByID, getAllAddressByUID, getSingleAddressByID, updateAddressByID } = require("./address.controller");
 
 const AddressRouter = Router();
 
